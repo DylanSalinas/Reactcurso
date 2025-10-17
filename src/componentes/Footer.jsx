@@ -1,6 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from 'react-bootstrap';
-import 'font-awesome/css/font-awesome.min.css'
+
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
+
 
 const Footer = () => {
     return (
@@ -8,13 +11,13 @@ const Footer = () => {
             <Container>
                 <Row>
                     <Col md={6}>
-                        <p className="mb-0">Nombre por decidir</p>
-                        <p className="mb-0">Lugar por decidir</p>
+                        <p className="mb-1">Nombre por decidir</p>
+                        <p className="mb-1">Lugar por decidir</p>
                     </Col>
                     <Col md={6}>
-                        <a href="#" className="text-white me-3" ><i class="fa-brands fa-square-instagram"></i> Instagram</a>
-                        <a href="#" className="text-white me-3"><i class="fa-brands fa-tiktok"></i> Tiktok</a>
-                        <a href="#" className="text-white me-3"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                        <a href="#" className="text-white me-3" ><i className="fa-brands fa-square-instagram"></i> Instagram</a>
+                        <a href="#" className="text-white me-3"><i className="fa-brands fa-tiktok"></i> Tiktok</a>
+                        <a href="#" className="text-white me-3"><i className="fa-brands fa-facebook"></i> Facebook</a>
                     </Col>
                 </Row>
             </Container>

@@ -10,4 +10,4 @@ const Ofertas =()=>{
     );
 
 };
-export default Home;
+export default Ofertas;
