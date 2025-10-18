@@ -1,5 +1,4 @@
 
-
 function ProductCard({ trago, precio }) {
   return (
     <div className="card">
@@ -7,6 +6,7 @@ function ProductCard({ trago, precio }) {
       <h3>{trago.strDrink}</h3>
       <p>{trago.strCategory}</p>
       <p>Precio: ${precio}</p>
+      <button>Añadir al carrito</button>
     </div>
   );
 }
