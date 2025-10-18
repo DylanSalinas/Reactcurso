@@ -103,3 +103,9 @@
   color: #666;
   margin-bottom: 10px;
 }
+.ofertas h2, .infaltables h2 {
+  text-align: center;
+  margin: 2rem 0 1rem;
+  font-size: 2rem;
+  color: #ff8800;
+}
