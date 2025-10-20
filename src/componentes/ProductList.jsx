@@ -4,6 +4,7 @@ import ProductCard from "./ProductCard";
 function ProductList({ category }) {
   const [tragos, setTragos] = useState([]);
   const [busqueda, setBusqueda] = useState("");
+  const [precios, setPrecios] = useState({}); // 🔹 Guarda los precios generados
 
   const buscarTragos = async (nombre) => {
     let url = "";
@@ -19,12 +20,21 @@ function ProductList({ category }) {
     try {
       const respuesta = await fetch(url);
       const datos = await respuesta.json();
+      const tragosObtenidos = Array.isArray(datos.drinks) ? datos.drinks : [];
 
-      // ✅ Si no hay resultados, aseguramos un array vacío
-      setTragos(Array.isArray(datos.drinks) ? datos.drinks : []);
+      // 🔹 Generar precios solo para los tragos nuevos
+      const nuevosPrecios = { ...precios };
+      tragosObtenidos.forEach((trago) => {
+        if (!nuevosPrecios[trago.idDrink]) {
+          nuevosPrecios[trago.idDrink] = Math.floor(Math.random() * 500) + 300;
+        }
+      });
+
+      setPrecios(nuevosPrecios);
+      setTragos(tragosObtenidos);
     } catch (error) {
       console.error("Error al cargar los tragos:", error);
-      setTragos([]); // Por si hay un fallo en la red
+      setTragos([]);
     }
   };
 
@@ -53,10 +63,13 @@ function ProductList({ category }) {
 
       <div className="galeria">
         {tragos.length > 0 ? (
-          tragos.map((trago) => {
-            const precio = Math.floor(Math.random() * 500) + 300;
-            return <ProductCard key={trago.idDrink} trago={trago} precio={precio} />;
-          })
+          tragos.map((trago) => (
+            <ProductCard
+              key={trago.idDrink}
+              trago={trago}
+              precio={precios[trago.idDrink]}
+            />
+          ))
         ) : (
           <p>No se encontraron tragos 😢</p>
         )}
