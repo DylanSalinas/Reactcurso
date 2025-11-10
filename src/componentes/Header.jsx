@@ -6,25 +6,30 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
+    <Navbar bg="dark" variant="dark" expand="lg" className="mb-4 shadow">
       <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-          <img src="https://placehold.co/40x40" 
-          alt="Logo" 
-          className="d-inline-block align-top me-2" />
-
-          <span>Galería de Tragos</span>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/2/2e/World_of_Tanks_logo.png"
+            alt="Logo"
+            className="d-inline-block align-top me-2"
+            style={{ width: "50px" }}
+          />
+          <span>Galería de Tanques</span>
         </Navbar.Brand>
 
         <Nav className="ms-auto align-items-center">
           <Nav.Link as={Link} to="/" className="me-3">
             Home
           </Nav.Link>
-          <Nav.Link as={Link} to="/ofertas" className="me-3">
-            Ofertas
+          <Nav.Link as={Link} to="/naciones" className="me-3">
+            Naciones
           </Nav.Link>
-          <Nav.Link as={Link} to="/infaltables" className="me-3">
-            Infaltables
+          <Nav.Link as={Link} to="/tiers" className="me-3">
+            Tiers
+          </Nav.Link>
+          <Nav.Link as={Link} to="/recomendados" className="me-3">
+            Recomendados
           </Nav.Link>
           <div className="d-flex align-items-center">
             <Button
