@@ -1,81 +1,96 @@
 import { useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
+import TankCard from "./TankCard";
 
-function ProductList({ category }) {
-  const [tragos, setTragos] = useState([]);
+function TankList({ nation }) {
+  const [tanks, setTanks] = useState([]);
   const [busqueda, setBusqueda] = useState("");
-  const [precios, setPrecios] = useState({}); // 🔹 Guarda los precios generados
+  const [precios, setPrecios] = useState({});
 
-  const buscarTragos = async (nombre) => {
-    let url = "";
+  const API_KEY = "demo"; // ⚠️ reemplazá por tu API key de Wargaming
+  const MOCK_URL = "https://tu-mockapi-url.mockapi.io/tanks"; // ⚠️ poné tu endpoint
 
-    if (category) {
-      url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${category}`;
-    } else if (nombre && nombre.trim() !== "") {
-      url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${nombre}`;
-    } else {
-      url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=tequila";
-    }
-
+  const buscarTanques = async (nombre) => {
     try {
+      let url = `https://api.worldoftanks.eu/wot/encyclopedia/vehicles/?application_id=${API_KEY}`;
+
+      if (nation) {
+        url += `&nation=${nation}`;
+      }
+
       const respuesta = await fetch(url);
       const datos = await respuesta.json();
-      const tragosObtenidos = Array.isArray(datos.drinks) ? datos.drinks : [];
 
-      // 🔹 Generar precios solo para los tragos nuevos
+      if (!datos.data) throw new Error("Sin datos de la API Wargaming");
+
+      // Convertimos los datos en un array y filtramos si hay búsqueda
+      let tanques = Object.values(datos.data);
+      if (nombre && nombre.trim() !== "") {
+        tanques = tanques.filter((t) =>
+          t.name.toLowerCase().includes(nombre.toLowerCase())
+        );
+      }
+
+      // Generar precios para cada tanque
       const nuevosPrecios = { ...precios };
-      tragosObtenidos.forEach((trago) => {
-        if (!nuevosPrecios[trago.idDrink]) {
-          nuevosPrecios[trago.idDrink] = Math.floor(Math.random() * 500) + 300;
+      tanques.forEach((tank) => {
+        if (!nuevosPrecios[tank.tank_id]) {
+          nuevosPrecios[tank.tank_id] = Math.floor(Math.random() * 20000) + 10000;
         }
       });
 
       setPrecios(nuevosPrecios);
-      setTragos(tragosObtenidos);
+      setTanks(tanques);
+
+      // 🔹 Guardar en MockAPI
+      await fetch(MOCK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tanques),
+      });
     } catch (error) {
-      console.error("Error al cargar los tragos:", error);
-      setTragos([]);
+      console.error("Error cargando tanques:", error);
+      setTanks([]);
     }
   };
 
   useEffect(() => {
-    buscarTragos(category ? "" : busqueda);
-  }, [category]);
+    buscarTanques();
+  }, [nation]);
 
   const manejarSubmit = (e) => {
     e.preventDefault();
-    buscarTragos(busqueda);
+    buscarTanques(busqueda);
   };
 
   return (
     <div>
-      {!category && (
+      {!nation && (
         <form onSubmit={manejarSubmit} className="buscador">
           <input
             type="text"
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
-            placeholder="Buscar trago..."
+            placeholder="Buscar tanque..."
           />
           <button type="submit">Buscar</button>
         </form>
       )}
 
       <div className="galeria">
-        {tragos.length > 0 ? (
-          tragos.map((trago) => (
-            <ProductCard
-              key={trago.idDrink}
-              trago={trago}
-              precio={precios[trago.idDrink]}
+        {tanks.length > 0 ? (
+          tanks.map((tank) => (
+            <TankCard
+              key={tank.tank_id}
+              tank={tank}
+              precio={precios[tank.tank_id]}
             />
           ))
         ) : (
-          <p>No se encontraron tragos 😢</p>
+          <p>No se encontraron tanques 😢</p>
         )}
       </div>
     </div>
   );
 }
 
-export default ProductList;
+export default TankList;
