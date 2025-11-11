@@ -1,0 +1,71 @@
+[33mcommit 92eb7c1d3c29f727cb22946fba38d6567e2546ce[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mProyectoFinalDylanS[m[33m)[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Mon Nov 10 21:12:24 2025 -0300
+
+    Arreglamos el error de API y la carga de tanques
+
+[33mcommit ee1e529bcb951d3ab07969b0049a7fa36945a19c[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Mon Nov 10 20:11:32 2025 -0300
+
+    Agrego componente TankList con conexion a API
+
+[33mcommit bcb5c5795af4d7531873e562204bab477d25ef59[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Mon Nov 10 20:04:00 2025 -0300
+
+    Agrego componente TankList con conexion a API
+
+[33mcommit 613268bda645738f8836f21f56bcc5f16d98e84c[m[33m ([m[1;31morigin/ProyectoFinalDylanS[m[33m)[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Mon Oct 27 19:51:58 2025 -0300
+
+    probando branch
+
+[33mcommit e8a2ba4839d7ad38e2d011ca5ac93d6f5494db83[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Mon Oct 20 18:35:21 2025 -0300
+
+    arregle la busqueda
+
+[33mcommit 437589f07a6dd1262d8cf0f66ba48e60a4b42dbe[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Sat Oct 18 21:42:32 2025 -0300
+
+    terminado
+
+[33mcommit 8d81c5e8db03c48ed6b590d178c09d33ed09403c[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Sat Oct 18 20:48:49 2025 -0300
+
+    boton de agregar al carrito
+
+[33mcommit 5845e69095812568c5b048bbade477c6555f5c75[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Sat Oct 18 18:32:00 2025 -0300
+
+    terminando todo falta poner lindo
+
+[33mcommit 3b4158e1176449581cbb6143829c291f5dc6f5ba[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Sat Oct 18 02:59:46 2025 -0300
+
+    cambiando un poco para las rutas
+
+[33mcommit c4402700d58c7ef04b2386d3d73e64e6d0e0065d[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Fri Oct 17 19:41:53 2025 -0300
+
+    levanta la página, falta acomodar
+
+[33mcommit 5b16e17e5f8b6025aabd7d11fa4fb4dbd192cfcc[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Fri Oct 17 19:06:08 2025 -0300
+
+    se crean archivos nuevos
+
+[33mcommit 2705f56d1fc292808e41b754f870b63efe389e4a[m
+Author: Dylan Salinas <Dylan.salinas108@gmail.com>
+Date:   Thu Oct 16 17:36:01 2025 -0300
+
+    first commit
