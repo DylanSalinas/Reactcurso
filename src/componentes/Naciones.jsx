@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "./TankCard";
 
 const Infaltables = () => {
   const [tragos, setTragos] = useState([]);

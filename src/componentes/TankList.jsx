@@ -6,47 +6,64 @@ function TankList({ nation }) {
   const [busqueda, setBusqueda] = useState("");
   const [precios, setPrecios] = useState({});
 
-  const API_KEY = "demo"; // ⚠️ reemplazá por tu API key de Wargaming
-  const MOCK_URL = "https://tu-mockapi-url.mockapi.io/tanks"; // ⚠️ poné tu endpoint
+  const API_KEY = import.meta.env.VITE_WOT_KEY;
+  const REGION = import.meta.env.VITE_WOT_REGION || "eu";
+  const BASE_URL = `https://api.worldoftanks.${REGION}`;
+  const MOCK_URL = "https://tu-mockapi-url.mockapi.io/tanks"; // ⚠️ tu endpoint
+
+  const estimarPrecioPorTier = (tier) => {
+    const preciosPorTier = {
+      1: 10000,
+      2: 25000,
+      3: 40000,
+      4: 80000,
+      5: 150000,
+      6: 300000,
+      7: 600000,
+      8: 1200000,
+      9: 2500000,
+      10: 5000000,
+    };
+    return preciosPorTier[tier] || 0;
+  };
 
   const buscarTanques = async (nombre) => {
     try {
-      let url = `https://api.worldoftanks.eu/wot/encyclopedia/vehicles/?application_id=${API_KEY}`;
+      let url = `${BASE_URL}/wot/encyclopedia/vehicles/?application_id=${API_KEY}`;
+      if (nation) url += `&nation=${nation}`;
 
-      if (nation) {
-        url += `&nation=${nation}`;
-      }
+      // 👇 Agregamos logs para depurar
+      console.log("🔗 URL solicitada:", url);
 
       const respuesta = await fetch(url);
       const datos = await respuesta.json();
 
-      if (!datos.data) throw new Error("Sin datos de la API Wargaming");
+      console.log("📦 Respuesta completa:", datos);
 
-      // Convertimos los datos en un array y filtramos si hay búsqueda
+      // Validamos la respuesta
+      if (!datos.status || datos.status !== "ok") {
+        throw new Error(`Error de API: ${datos.error?.message || "Respuesta inválida"}`);
+      }
+
+      if (!datos.data) throw new Error("Sin datos de la API de Wargaming");
+
       let tanques = Object.values(datos.data);
+
       if (nombre && nombre.trim() !== "") {
         tanques = tanques.filter((t) =>
           t.name.toLowerCase().includes(nombre.toLowerCase())
         );
       }
 
-      // Generar precios para cada tanque
       const nuevosPrecios = { ...precios };
       tanques.forEach((tank) => {
         if (!nuevosPrecios[tank.tank_id]) {
-          nuevosPrecios[tank.tank_id] = Math.floor(Math.random() * 20000) + 10000;
+          nuevosPrecios[tank.tank_id] = estimarPrecioPorTier(tank.tier);
         }
       });
 
       setPrecios(nuevosPrecios);
       setTanks(tanques);
-
-      // 🔹 Guardar en MockAPI
-      await fetch(MOCK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(tanques),
-      });
     } catch (error) {
       console.error("Error cargando tanques:", error);
       setTanks([]);

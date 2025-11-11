@@ -28,9 +28,6 @@ const Header = () => {
           <Nav.Link as={Link} to="/tiers" className="me-3">
             Tiers
           </Nav.Link>
-          <Nav.Link as={Link} to="/recomendados" className="me-3">
-            Recomendados
-          </Nav.Link>
           <div className="d-flex align-items-center">
             <Button
               variant="outline-light"

@@ -118,3 +118,41 @@
 .card button:hover {
   background-color: #d94328;
 }
+.carrito-container {
+  padding: 20px;
+  background-color: #222;
+  color: white;
+}
+
+.carrito-lista {
+  list-style: none;
+  padding: 0;
+}
+
+.carrito-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #333;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.carrito-item img {
+  border-radius: 8px;
+}
+
+.carrito-total {
+  margin-top: 20px;
+  text-align: right;
+}
+
+button {
+  background: crimson;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
