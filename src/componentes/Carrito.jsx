@@ -1,10 +1,21 @@
 import { useContext } from "react";
-import { CartContext } from "./CartContext"; // ajustá la ruta si está en otra carpeta
+import { CartContext } from "../componentes/CartContext"; // 📁 ruta correcta
 
 function Carrito() {
-  const { carrito, eliminarDelCarrito, vaciarCarrito } = useContext(CartContext);
+  const ctx = useContext(CartContext);
 
-  const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  // ✅ Si el contexto no está cargado todavía
+  if (!ctx) {
+    return <p>Cargando carrito...</p>;
+  }
+
+  const { carrito = [], eliminarDelCarrito, vaciarCarrito } = ctx;
+
+  // ✅ proteger reduce por si cantidad/precio no existen
+  const total = carrito.reduce(
+    (acc, item) => acc + (item.precio || 0) * (item.cantidad || 1),
+    0
+  );
 
   if (carrito.length === 0) {
     return (
@@ -18,19 +29,44 @@ function Carrito() {
   return (
     <div className="carrito-container">
       <h2>🛒 Tu carrito</h2>
+
       <ul className="carrito-lista">
         {carrito.map((item) => (
-          <li key={item.id} className="carrito-item">
-            <img src={item.image} alt={item.name} width="80" />
+          <li
+            key={item.tank_id || item.id}
+            className="carrito-item"
+          >
+
+            {/* ✅ Si la imagen no existe */}
+            {item.image ? (
+              <img
+                src={item.image}
+                alt={item.name || "Tanque sin nombre"}
+                width="80"
+              />
+            ) : (
+              <div className="imagen-placeholder" style={{ width: 80, height: 50 }}>
+                Sin imagen
+              </div>
+            )}
+
             <div>
-              <h3>{item.name}</h3>
+              <h3>{item.name || "Tanque desconocido"}</h3>
+
               <p>
-                Tier: {item.tier} | Nación: {item.nation}
+                Tier: {item.tier ?? "?"} | Nación: {item.nation || "?"}
               </p>
-              <p>Precio: {item.precio.toLocaleString()} créditos</p>
-              <p>Cantidad: {item.cantidad}</p>
+
+              {/* ✅ Si precio es undefined */}
+              <p>Precio: {(item.precio ?? 0).toLocaleString()} créditos</p>
+
+              {/* ✅ Si cantidad es undefined */}
+              <p>Cantidad: {item.cantidad ?? 1}</p>
             </div>
-            <button onClick={() => eliminarDelCarrito(item.id)}>❌ Quitar</button>
+
+            <button onClick={() => eliminarDelCarrito(item.tank_id || item.id)}>
+              ❌ Quitar
+            </button>
           </li>
         ))}
       </ul>

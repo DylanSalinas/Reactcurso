@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-// Creamos el contexto global del carrito
+// Contexto global 🛒
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
@@ -8,23 +8,41 @@ export const CartProvider = ({ children }) => {
 
   // 🧩 Agregar tanque al carrito
   const agregarAlCarrito = (tanque) => {
-    setCarrito((prevCarrito) => {
-      const existente = prevCarrito.find((item) => item.id === tanque.id);
-      if (existente) {
-        return prevCarrito.map((item) =>
-          item.id === tanque.id
-            ? { ...item, cantidad: item.cantidad + 1 }
+    if (!tanque) return;
+
+    const id = tanque.tank_id; // ✅ usamos la ID correcta de :contentReference[oaicite:0]{index=0}
+
+    setCarrito((prev) => {
+      const existe = prev.find((item) => item.tank_id === id);
+
+      if (existe) {
+        return prev.map((item) =>
+          item.tank_id === id
+            ? { ...item, cantidad: (item.cantidad || 1) + 1 }
             : item
         );
-      } else {
-        return [...prevCarrito, { ...tanque, cantidad: 1 }];
       }
+
+      // Si no existe todavía lo agregamos
+      return [
+        ...prev,
+        {
+          tank_id: id,
+          name: tanque.name || "Tanque desconocido",
+          nation: tanque.nation || "?",
+          tier: tanque.tier ?? "?",
+          type: tanque.type || "?",
+          image: tanque.images?.small_icon || tanque.image || "",
+          precio: tanque.precio ?? tanque.precioPorTier ?? 0,
+          cantidad: 1,
+        },
+      ];
     });
   };
 
-  // ❌ Eliminar tanque del carrito
+  // ❌ Eliminar del carrito
   const eliminarDelCarrito = (id) => {
-    setCarrito((prevCarrito) => prevCarrito.filter((item) => item.id !== id));
+    setCarrito((prev) => prev.filter((item) => item.tank_id !== id));
   };
 
   // 🧹 Vaciar carrito
@@ -38,3 +56,6 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+// ✅ Agregamos alias opcional por si en algún import lo llaman así:
+export default CartProvider;
