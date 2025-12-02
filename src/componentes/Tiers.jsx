@@ -1,43 +1,37 @@
-import React, { useEffect, useState } from "react";
-import ProductCard from "./TankCard";
+import { Link } from "react-router-dom";
 
-const Ofertas = () => {
-  const [tragos, setTragos] = useState([]);
+function Tiers() {
+  const tiers = [1,2,3,4,5,6,7,8,9,10];
 
-  const obtenerOfertas = async () => {
-    try {
-      const respuesta = await fetch(
-        "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita"
-      );
-      const datos = await respuesta.json();
-      setTragos(Array.isArray(datos.drinks) ? datos.drinks : []);
-    } catch (error) {
-      console.error("Error al cargar margaritas:", error);
-      setTragos([]);
-    }
-  };
-
-  useEffect(() => {
-    obtenerOfertas();
-  }, []);
+  // 🔹 Tipos con key exacta de la API y nombre bonito
+  const tipos = [
+    { key: "heavy", nombre: "Pesados" },
+    { key: "medium", nombre: "Medios" },
+    { key: "light", nombre: "Ligeros" },
+    { key: "AT-SPG", nombre: "Cazatanques" },
+    { key: "SPG", nombre: "Artillería" }
+  ];
 
   return (
-    <div className="container">
-      <h2>Ofertas 🔥</h2>
-      <p>Descubrí descuentos en tragos seleccionados (¡2 x1 en Margaritas!).</p>
-
-      <div className="galeria">
-        {tragos.length > 0 ? (
-          tragos.map((trago) => {
-            const precio = Math.floor(Math.random() * 500) + 300;
-            return <ProductCard key={trago.idDrink} trago={trago} precio={precio} />;
-          })
-        ) : (
-          <p>No se encontraron margaritas 😢</p>
-        )}
-      </div>
-    </div>
+    <section className="ofertas">
+      <h2>🔥 Tiers</h2>
+      {tiers.map((tier) => (
+        <div key={tier}>
+          <h3>Tier {tier}</h3>
+          <div className="galeria">
+            {tipos.map((tipo) => (
+              <Link key={tipo.key} to={`/tanques?tier=${tier}&type=${tipo.key}`}>
+                <div className="card">
+                  <p>{tipo.nombre}</p>
+                  <p>Ver tanques de Tier {tier}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
   );
-};
+}
 
-export default Ofertas;
+export default Tiers;

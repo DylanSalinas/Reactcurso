@@ -1,158 +1,103 @@
-
-.App {
-  text-align: center;
-  padding: 20px;
-  background-color: #f7f7f7;
-  min-height: 100vh;
-}
-
-.buscador {
-  margin: 20px;
-}
-
-.buscador input {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 200px;
-}
-
-.buscador button {
-  margin-left: 10px;
-  padding: 10px 15px;
-  border: none;
-  background-color: #ff8c00;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.galeria {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
-
+/* ===== CARD BASE (no modificar) ===== */
 .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 240px;
+  height: 360px;
+  padding: 16px;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease;
+  border: 1px solid #ddd;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
 }
 
 .card:hover {
   transform: scale(1.05);
 }
 
-.card img {
+/* ===== CONTENEDOR DE IMAGEN (tanques o banderas) ===== */
+.card .img-container {
   width: 100%;
-  height: 220px;
-  object-fit: cover;
-}
-
-.card h3 {
-  margin: 10px 0 5px;
-}
-
-.card p {
-  color: #666;
-  margin-bottom: 10px;
-}
-.ofertas h2, .infaltables h2 {
-  text-align: center;
-  margin: 2rem 0 1rem;
-  font-size: 2rem;
-  color: #ff8800;
-}
-.card button {
-  background-color: #f04e30;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.card button:hover {
-  background-color: #d94328;
-}
-.card {
+  height: 170px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* esto hace que el contenido se distribuya verticalmente */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  width: 200px; /* ajusta según necesites */
-  height: 350px; /* altura fija para que el botón quede abajo */
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: #f0f0f0;
 }
 
-.card img {
-  width: 100%;
-  border-radius: 8px;
-  object-fit: cover;
-  height: 150px;
+/* ===== IMAGEN TANQUES (no se toca) ===== */
+.card .tank-img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  transform: scale(1.2);
 }
 
-.card h3 {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
-}
-
-.card p {
-  margin: 0.25rem 0;
-}
-
-.card button {
-  background-color: #f04e30;
-  color: white;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: auto; /* esto empuja el botón hacia abajo */
-}
-
-.card button:hover {
-  background-color: #d94328;
-}
-.carrito-container {
-  padding: 20px;
-  background-color: #222;
-  color: white;
-}
-
-.carrito-lista {
-  list-style: none;
+/* ===== BANDERAS (solo controla banderas, no rompe otras imgs) ===== */
+.card .flag-img {
+  width: 120px;  /* tamaño correcto solo para bandera */
+  height: 80px;
+  object-fit: contain;
+  background: transparent;
   padding: 0;
+  margin-bottom: 12px; /* separa del texto */
 }
 
-.carrito-item {
+/* ===== CABECERA NACIÓN SELECCIONADA ===== */
+.nacion-header {
   display: flex;
   align-items: center;
-  gap: 15px;
-  background: #333;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 10px;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 24px;
 }
 
-.carrito-item img {
-  border-radius: 8px;
+.nacion-header img {
+  width: 60px; /* bandera del header, no afecta a cards */
+  height: auto;
 }
 
-.carrito-total {
-  margin-top: 20px;
-  text-align: right;
+/* ===== BLOQUES POR TIER ===== */
+.tier-block {
+  margin: 32px 0;
 }
 
-button {
-  background: crimson;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
-  cursor: pointer;
+.tier-block h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+/* ===== GALERÍA (no modificar) ===== */
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 22px;
+  justify-items: center;
+  padding: 24px;
+}
+
+/* ===== SPINNER (no modificar) ===== */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid;
+  border-radius: 50%;
+  border-top: 3px solid transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
