@@ -1,38 +1,52 @@
-import React from "react";
-import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../componentes/AuthContext";
 
-const Login = () => {
+function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { login, logout } = useAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Login enviado");
+
+    // 🔒 hardcode
+    if (username === "admin" && password === "1234") {
+      login(username);
+      navigate("/");
+    } else {
+      alert("Usuario o contraseña incorrectos");
+    }
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center min-vh-100">
-      <Row className="w-100 justify-content-center">
-        <Col md={6} lg={4}>
-          <Card className="shadow-lg p-4">
-            <Card.Body>
-              <h2 className="text-center mb-4">Iniciar Sesión</h2>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formUsername">
-                  <Form.Label>Usuario</Form.Label>
-                  <Form.Control type="text" placeholder="Ingrese su usuario" required />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formPassword">
-                  <Form.Label>Contraseña</Form.Label>
-                  <Form.Control type="password" placeholder="Ingrese su contraseña" required />
-                </Form.Group>
-                <Button variant="primary" type="submit" className="w-100">
-                  Ingresar
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <section className="login">
+      <h2>Login</h2>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Usuario"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        <button type="submit">Ingresar</button>
+      </form>
+
+      <button onClick={logout}>Salir</button>
+    </section>
   );
-};
+}
 
 export default Login;

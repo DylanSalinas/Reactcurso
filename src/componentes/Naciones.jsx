@@ -13,6 +13,12 @@ export default function Naciones() {
 
   const [abiertos, setAbiertos] = useState({}); // 👈 controla qué tiers están abiertos
 
+  // 🔹 Estado de favoritos (guarda objetos completos)
+  const [favoritos, setFavoritos] = useState(() => {
+    const guardados = localStorage.getItem("tanquesFavoritos");
+    return guardados ? JSON.parse(guardados) : [];
+  });
+
   const { agregarAlCarrito } = useContext(CartContext);
 
   const API_KEY = import.meta.env.VITE_WOT_KEY;
@@ -84,6 +90,26 @@ export default function Naciones() {
     }));
   };
 
+  // 🔹 Función para alternar favorito
+  const toggleFavorito = (tank) => {
+    const tankId = tank.tank_id;
+    const yaEsFavorito = favoritos.some(f => f.tank_id === tankId);
+    
+    let nuevosFavoritos;
+    if (yaEsFavorito) {
+      nuevosFavoritos = favoritos.filter(f => f.tank_id !== tankId);
+    } else {
+      // Guardar objeto completo con precio calculado
+      const tanqueCompleto = {
+        ...tank,
+        precio: estimarPrecioPorTier(tank.tier)
+      };
+      nuevosFavoritos = [...favoritos, tanqueCompleto];
+    }
+    setFavoritos(nuevosFavoritos);
+    localStorage.setItem("tanquesFavoritos", JSON.stringify(nuevosFavoritos));
+  };
+
   if (!nationSeleccionada) {
     return (
       <section>
@@ -132,7 +158,13 @@ export default function Naciones() {
           {abiertos[tier] && (
             <div className="galeria">
               {bloques[tier].map(tank => (
-                <TankCard key={tank.tank_id} tank={tank} precio={estimarPrecioPorTier(tank.tier)} />
+                <TankCard 
+                  key={tank.tank_id} 
+                  tank={tank} 
+                  precio={estimarPrecioPorTier(tank.tier)}
+                  esFavorito={favoritos.some(f => f.tank_id === tank.tank_id)}
+                  onToggleFavorito={() => toggleFavorito(tank)}
+                />
               ))}
             </div>
           )}

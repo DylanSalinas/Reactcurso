@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../componentes/CartContext"; 
 
-function TankCard({ tank, precio }) {
+function TankCard({ tank, precio, esFavorito, onToggleFavorito }) {
   const { agregarAlCarrito } = useContext(CartContext);
 
   if (!tank) return null;
@@ -24,7 +24,6 @@ function TankCard({ tank, precio }) {
 
   return (
     <div className="card">
-
       {/* ✅ Imagen bien arriba */}
       <img src={imageUrl} alt={tank.name} className="tank-img" />
 
@@ -33,8 +32,16 @@ function TankCard({ tank, precio }) {
       <p><strong>Tipo:</strong> {tank.type}</p>
       <p><strong>Tier:</strong> {tank.tier}</p>
       <p><strong>Precio estimado:</strong> {precio?.toLocaleString() || 0} créditos</p>
-      <button onClick={manejarClick}>Añadir al carrito</button>
 
+      {/* Botones */}
+      <div className="botones-card">
+        <button onClick={manejarClick}>🛒 Añadir al carrito</button>
+        {onToggleFavorito && (
+          <button onClick={onToggleFavorito}>
+            {esFavorito ? "❤️ Favorito" : "🤍 Agregar a favoritos"}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

@@ -2,10 +2,18 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import TankCard from "./TankCard";
 
+const MOCK_API_URL = "https://TU_URL.mockapi.io/tanks";
+
 function TankList() {
   const [tanks, setTanks] = useState([]);
   const [buscando, setBuscando] = useState(false);
   const [error, setError] = useState("");
+  
+  // 🔹 Estado de favoritos (ahora guarda objetos completos)
+  const [favoritos, setFavoritos] = useState(() => {
+    const guardados = localStorage.getItem("tanquesFavoritos");
+    return guardados ? JSON.parse(guardados) : [];
+  });
 
   const [params] = useSearchParams();
   const nation = params.get("nation");
@@ -26,7 +34,7 @@ function TankList() {
       7: 600000,
       8: 1200000,
       9: 2500000,
-      10: 5000000
+      10: 5000000,
     };
     return preciosPorTier[tier] || 0;
   };
@@ -44,7 +52,8 @@ function TankList() {
       const res = await fetch(url);
       const datos = await res.json();
 
-      if (datos.status !== "ok") throw new Error(datos.error?.message || "Error desconocido");
+      if (datos.status !== "ok")
+        throw new Error(datos.error?.message || "Error desconocido");
       if (!datos.data) throw new Error("Sin datos de la API");
 
       setTanks(Object.values(datos.data));
@@ -60,6 +69,26 @@ function TankList() {
     buscarTanques();
   }, [nation, tier, type]);
 
+  // ✅ POST A MOCKAPI
+  const guardarEnMockAPI = async (tank) => {
+    try {
+      await fetch(MOCK_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: tank.name,
+          tier: tank.tier,
+          type: tank.type,
+          nation: tank.nation,
+          image: tank.images?.small || "",
+          price: estimarPrecioPorTier(tank.tier),
+        }),
+      });
+    } catch (err) {
+      console.error("Error guardando en MockAPI", err);
+    }
+  };
+
   // 🔹 Normalizamos tipo de tanque
   const normalizarTipo = (apiType) => {
     if (!apiType) return "unknown";
@@ -71,7 +100,7 @@ function TankList() {
     return "unknown";
   };
 
-  // 🔹 Agrupar por tipo usando la normalización
+  // 🔹 Agrupar por tipo
   const tanquesPorTipo = tanks.reduce((acc, tank) => {
     const t = normalizarTipo(tank.type);
     if (!acc[t]) acc[t] = [];
@@ -79,7 +108,6 @@ function TankList() {
     return acc;
   }, {});
 
-  // 🔹 Tipos a mostrar
   const todosTipos = ["heavy", "medium", "light", "AT-SPG", "SPG"];
   const tiposAMostrar = type ? [normalizarTipo(type)] : todosTipos;
 
@@ -88,7 +116,27 @@ function TankList() {
     medium: "Medios",
     light: "Ligeros",
     "AT-SPG": "Cazatanques",
-    SPG: "Artillería"
+    SPG: "Artillería",
+  };
+
+  // 🔹 Función para alternar favorito (ahora guarda objetos completos)
+  const toggleFavorito = (tank) => {
+    const tankId = tank.tank_id;
+    const yaEsFavorito = favoritos.some(f => f.tank_id === tankId);
+    
+    let nuevosFavoritos;
+    if (yaEsFavorito) {
+      nuevosFavoritos = favoritos.filter(f => f.tank_id !== tankId);
+    } else {
+      // Guardar objeto completo con precio calculado
+      const tanqueCompleto = {
+        ...tank,
+        precio: estimarPrecioPorTier(tank.tier)
+      };
+      nuevosFavoritos = [...favoritos, tanqueCompleto];
+    }
+    setFavoritos(nuevosFavoritos);
+    localStorage.setItem("tanquesFavoritos", JSON.stringify(nuevosFavoritos));
   };
 
   return (
@@ -107,25 +155,28 @@ function TankList() {
       )}
 
       {buscando && <Spinner />}
-
       {error && <p>❌ {error}</p>}
 
       {tanks.length > 0 ? (
-        tiposAMostrar.map((t) =>
-          tanquesPorTipo[t] && tanquesPorTipo[t].length > 0 ? (
-            <section key={t}>
-              <h2>🛡 {nombresBonitos[t]}</h2>
-              <div className="galeria">
-                {tanquesPorTipo[t].map((tank) => (
-                  <TankCard
-                    key={tank.tank_id}
-                    tank={tank}
-                    precio={estimarPrecioPorTier(tank.tier)}
-                  />
-                ))}
-              </div>
-            </section>
-          ) : null
+        tiposAMostrar.map(
+          (t) =>
+            tanquesPorTipo[t]?.length > 0 && (
+              <section key={t}>
+                <h2>🛡 {nombresBonitos[t]}</h2>
+                <div className="galeria">
+                  {tanquesPorTipo[t].map((tank) => (
+                    <TankCard
+                      key={tank.tank_id}
+                      tank={tank}
+                      precio={estimarPrecioPorTier(tank.tier)}
+                      onGuardar={() => guardarEnMockAPI(tank)}
+                      esFavorito={favoritos.some(f => f.tank_id === tank.tank_id)}
+                      onToggleFavorito={() => toggleFavorito(tank)}
+                    />
+                  ))}
+                </div>
+              </section>
+            )
         )
       ) : (
         !buscando && <p>No se encontraron tanques 😢</p>

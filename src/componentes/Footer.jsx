@@ -11,8 +11,7 @@ const Footer = () => {
             <Container>
                 <Row>
                     <Col md={6}>
-                        <p className="mb-1">Nombre por decidir</p>
-                        <p className="mb-1">Lugar por decidir</p>
+                        <p className="mb-1">Todo para el tanquista</p>
                     </Col>
                     <Col md={6}>
                         <a href="#" className="text-white me-3" ><i className="fa-brands fa-square-instagram"></i> Instagram</a>

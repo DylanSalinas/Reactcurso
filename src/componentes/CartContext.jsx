@@ -24,11 +24,25 @@ export const CartProvider = ({ children }) => {
   const eliminarDelCarrito = (tank_id) =>
     setCarrito((prev) => prev.filter((item) => item.tank_id !== tank_id));
 
+  const actualizarCantidad = (tank_id, nuevaCantidad) => {
+    if (nuevaCantidad <= 0) {
+      eliminarDelCarrito(tank_id);
+      return;
+    }
+    setCarrito((prev) =>
+      prev.map((item) =>
+        item.tank_id === tank_id
+          ? { ...item, cantidad: nuevaCantidad }
+          : item
+      )
+    );
+  };
+
   const vaciarCarrito = () => setCarrito([]);
 
   return (
     <CartContext.Provider
-      value={{ carrito, agregarAlCarrito, eliminarDelCarrito, vaciarCarrito }}
+      value={{ carrito, agregarAlCarrito, eliminarDelCarrito, actualizarCantidad, vaciarCarrito }}
     >
       {children}
     </CartContext.Provider>
