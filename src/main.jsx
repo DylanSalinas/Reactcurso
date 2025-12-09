@@ -8,7 +8,7 @@ import { AuthProvider } from "./componentes/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter basename="/Reactcurso">
+    <BrowserRouter basename="/reactcurso">
       <AuthProvider>
         <App />
       </AuthProvider>
