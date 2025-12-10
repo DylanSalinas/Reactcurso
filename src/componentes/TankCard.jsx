@@ -24,7 +24,7 @@ function TankCard({ tank, precio, esFavorito, onToggleFavorito }) {
 
   return (
     <div className="card">
-      {/* ✅ Imagen bien arriba */}
+    
       <img src={imageUrl} alt={tank.name} className="tank-img" />
 
       <h3>{tank.name}</h3>

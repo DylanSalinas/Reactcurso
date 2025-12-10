@@ -10,7 +10,7 @@ import TodosTanques from "./componentes/TodosTanques";
 import Login from "./componentes/Login";
 import Footer from "./componentes/Footer";
 import Carrito from "./componentes/Carrito";
-import FavoritosPage from "./componentes/FavoritosPage"; // ✅ importar la página de favoritos
+import FavoritosPage from "./componentes/FavoritosPage"; 
 
 import { CartProvider } from "./componentes/CartContext";
 import { AuthProvider } from "./componentes/AuthContext";
@@ -30,7 +30,7 @@ function App() {
             <Route path="/naciones" element={<Naciones />} />
             <Route path="/tanques" element={<TankList />} />
             <Route path="/todos-tanques" element={<TodosTanques />} />
-            <Route path="/favoritos" element={<FavoritosPage />} /> {/* ✅ nueva ruta */}
+            <Route path="/favoritos" element={<FavoritosPage />} /> 
             <Route path="/login" element={<Login />} />
 
             {/* protegidas */}

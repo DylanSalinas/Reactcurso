@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function Tiers() {
   const tiers = [1,2,3,4,5,6,7,8,9,10];
 
-  // 🔹 Tipos con key exacta de la API, nombre bonito e icono
+
   const tipos = [
     { key: "heavy", nombre: "Pesados", icono: "🛡️" },
     { key: "medium", nombre: "Medios", icono: "⚔️" },
@@ -12,9 +12,9 @@ function Tiers() {
     { key: "SPG", nombre: "Artillería", icono: "💣" }
   ];
 
-  // 🔹 Función para obtener color según tier (todos usan el color del tier 10)
+ 
   const getTierColor = (tier) => {
-    // Todos los tiers usan el mismo color que el tier 10
+  
     return "#0f4f0f";
   };
 

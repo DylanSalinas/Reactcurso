@@ -11,7 +11,7 @@ function TodosTanques() {
   const [filtroTipo, setFiltroTipo] = useState("");
   const [filtroTier, setFiltroTier] = useState("");
 
-  // 🔹 Estado de favoritos
+ 
   const [favoritos, setFavoritos] = useState(() => {
     const guardados = localStorage.getItem("tanquesFavoritos");
     return guardados ? JSON.parse(guardados) : [];
@@ -267,5 +267,7 @@ function TodosTanques() {
 }
 
 export default TodosTanques;
+
+
 
 

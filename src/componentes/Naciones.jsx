@@ -11,9 +11,9 @@ export default function Naciones() {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
 
-  const [abiertos, setAbiertos] = useState({}); // 👈 controla qué tiers están abiertos
+  const [abiertos, setAbiertos] = useState({}); 
 
-  // 🔹 Estado de favoritos (guarda objetos completos)
+ 
   const [favoritos, setFavoritos] = useState(() => {
     const guardados = localStorage.getItem("tanquesFavoritos");
     return guardados ? JSON.parse(guardados) : [];
@@ -62,7 +62,7 @@ export default function Naciones() {
       const lista = Object.values(datos.data);
       setTanks(lista);
 
-      // 🧩 inicializa todos los tiers como cerrados
+      //  inicializa todos los tiers como cerrados
       const inicial = {};
       lista.forEach(t => {
         const tier = t.tier ?? 0;
@@ -174,7 +174,7 @@ export default function Naciones() {
   );
 }
 
-// 💰 función sacada del componente para reusarla sin romper
+
 function estimarPrecioPorTier(tier) {
   const precios = {
     1: 10000,

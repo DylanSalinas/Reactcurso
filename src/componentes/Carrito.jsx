@@ -10,7 +10,7 @@ function Carrito() {
 
   const { carrito = [], eliminarDelCarrito, actualizarCantidad, vaciarCarrito } = ctx;
 
-  // ✅ proteger reduce por si cantidad/precio no existen
+
   const total = carrito.reduce(
     (acc, item) => acc + (item.precio || 0) * (item.cantidad || 1),
     0

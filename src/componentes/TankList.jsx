@@ -69,7 +69,6 @@ function TankList() {
     buscarTanques();
   }, [nation, tier, type]);
 
-  // ✅ POST A MOCKAPI
   const guardarEnMockAPI = async (tank) => {
     try {
       await fetch(MOCK_API_URL, {

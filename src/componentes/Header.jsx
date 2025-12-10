@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faHeart } from "@fortawesome/free-solid-svg-icons"; // ✅ importamos el icono de favoritos
+import { faShoppingCart, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../componentes/AuthContext";
 
 const Header = () => {
@@ -60,12 +60,12 @@ const Header = () => {
                 </>
               )}
 
-              {/* 🔹 Link a favoritos */}
+             
               <Link to="/favoritos" className="icon-link" title="Mis Favoritos">
                 <FontAwesomeIcon icon={faHeart} size="lg" />
               </Link>
 
-              {/* 🔹 Link al carrito */}
+              
               <Link to="/carrito" className="icon-link" title="Carrito">
                 <FontAwesomeIcon icon={faShoppingCart} size="lg" />
               </Link>
